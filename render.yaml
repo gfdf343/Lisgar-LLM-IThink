@@ -1,0 +1,45 @@
+services:
+  - type: web_service
+    name: open-notebook-proxy
+    env: docker
+    dockerImage: nginx:alpine
+    plan: starter
+    internalPort: 80
+    autoDeploy: true
+    envVars:
+      - key: OPEN_NOTEBOOK_SERVICE
+        value: open-notebook
+      - key: OPEN_NOTEBOOK_API_SERVICE
+        value: open-notebook-api
+
+  - type: private_service
+    name: open-notebook
+    env: docker
+    dockerImage: lfnovo/open_notebook:v1-latest
+    plan: starter
+    diskGB: 1
+    internalPort: 8502
+    envVars:
+      - key: OPEN_NOTEBOOK_ENCRYPTION_KEY
+        value: change-me-to-a-secret-string
+      - key: SURREAL_URL
+        value: ws://surrealdb:8000/rpc
+      - key: SURREAL_USER
+        value: root
+      - key: SURREAL_PASSWORD
+        value: root
+      - key: SURREAL_NAMESPACE
+        value: open_notebook
+      - key: SURREAL_DATABASE
+        value: open_notebook
+      - key: API_URL
+        value: https://$RENDER_EXTERNAL_HOSTNAME/api
+
+  - type: private_service
+    name: surrealdb
+    env: docker
+    dockerImage: surrealdb/surrealdb:v2
+    plan: starter
+    diskGB: 10
+    internalPort: 8000
+    startCommand: start --log info --user root --pass root rocksdb:/mydata/mydatabase.db
