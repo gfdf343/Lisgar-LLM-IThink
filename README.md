@@ -14,7 +14,8 @@ It defines:
 1. Push this repository to GitHub.
 2. Create a Render account and connect the repository.
 3. Render should detect `render.yaml` and create the services.
-4. Update `OPEN_NOTEBOOK_ENCRYPTION_KEY` in Render secrets for production.
+4. Remove any custom build command such as `git push` from the Render service settings.
+5. Update `OPEN_NOTEBOOK_ENCRYPTION_KEY` in Render secrets for production.
 
 ### Notes
 

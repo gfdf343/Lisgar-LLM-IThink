@@ -2,10 +2,11 @@ services:
   - type: web_service
     name: open-notebook-proxy
     env: docker
-    dockerImage: nginx:alpine
+    dockerfilePath: Dockerfile
     plan: starter
     internalPort: 80
     autoDeploy: true
+    buildCommand: ""
     envVars:
       - key: OPEN_NOTEBOOK_SERVICE
         value: open-notebook
@@ -16,6 +17,7 @@ services:
     name: open-notebook
     env: docker
     dockerImage: lfnovo/open_notebook:v1-latest
+    buildCommand: ""
     plan: starter
     diskGB: 1
     internalPort: 8502
@@ -39,6 +41,7 @@ services:
     name: surrealdb
     env: docker
     dockerImage: surrealdb/surrealdb:v2
+    buildCommand: ""
     plan: starter
     diskGB: 10
     internalPort: 8000
